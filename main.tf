@@ -355,6 +355,7 @@ resource "azurerm_firewall_policy" "azfwpolicy" {
   name                = "azfw-policy"
   resource_group_name = azurerm_resource_group.RG.name
   location            = azurerm_resource_group.RG.location
+  sku = "Premium"
   timeouts {
     create = "2h"
     read = "2h"
