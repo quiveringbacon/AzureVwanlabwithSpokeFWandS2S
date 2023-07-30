@@ -554,6 +554,50 @@ resource "azurerm_firewall" "azfw" {
   
 }
 
+#log analytics workspace
+resource "azurerm_log_analytics_workspace" "LAW" {
+  name                = "LAW-01"
+  location            = azurerm_resource_group.RG.location
+  resource_group_name = azurerm_resource_group.RG.name
+}
+
+#firewall logging
+resource "azurerm_monitor_diagnostic_setting" "fwlogs"{
+  name = "fwlogs"
+  target_resource_id = azurerm_firewall.azfw.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.LAW.id
+  log_analytics_destination_type = "Dedicated"
+
+  enabled_log {
+    category = "AZFWNetworkRule"
+  }
+  enabled_log {
+    category = "AZFWApplicationRule"
+  }
+  enabled_log {
+    category = "AZFWNatRule"
+  }
+  enabled_log {
+    category = "AZFWThreatIntel"
+  }
+  enabled_log {
+    category = "AZFWIdpsSignature"
+  }
+  enabled_log {
+    category = "AZFWDnsQuery"
+  }
+  enabled_log {
+    category = "AZFWFqdnResolveFailure"
+  }
+  enabled_log {
+    category = "AZFWFatFlow"
+  }
+  enabled_log {
+    category = "AZFWFlowTrace"
+  }
+}
+
+
 #vpngw
 resource "azurerm_virtual_network_gateway" "onpremvpngw" {
   name                = "onpremVPNGW"
