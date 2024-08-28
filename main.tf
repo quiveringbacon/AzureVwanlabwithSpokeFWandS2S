@@ -1,6 +1,7 @@
 provider "azurerm" {
   features {
   }
+  subscription_id = var.F-SubscriptionID
 }
 
 #variables
@@ -25,6 +26,10 @@ variable "D-username" {
 variable "E-password" {
     description = "Password for Virtual Machines"
     sensitive = true
+}
+
+variable "F-SubscriptionID" {
+  description = "Subscription ID to use"  
 }
 
 resource "azurerm_resource_group" "RG" {
